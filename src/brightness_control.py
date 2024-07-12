@@ -1,6 +1,8 @@
 import tkinter as tk
 import subprocess
 from PIL import Image, ImageTk
+import requests
+from io import BytesIO
 
 def get_current_brightness():
     """Gets the current screen brightness."""
@@ -33,12 +35,13 @@ root.title("Adjust Brightness")
 root.geometry("300x200")
 root.configure(bg="#f0f0f0")
 
-# Path to the brightness icon file
-icon_path = "imgs/sun.png"  # Make sure this path is correct
+# Path to the brightness icon file URL
+icon_url = "https://github.com/dduro2020/Change-screen-brightness/raw/main/imgs/sun.png"  # Direct URL to the image
 
 # Set the window icon
 try:
-    icon = Image.open(icon_path)
+    response = requests.get(icon_url)
+    icon = Image.open(BytesIO(response.content))
     icon = icon.resize((48, 48), Image.LANCZOS)  # Resize the icon
     icon_photo = ImageTk.PhotoImage(icon)
     root.tk.call('wm', 'iconphoto', root._w, icon_photo)
